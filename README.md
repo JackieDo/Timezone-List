@@ -42,7 +42,7 @@ Example:
 
 Method Timezonelist::create() have three parameters:
 ```php
-	Timezonelist::create($name, $selected_value, $html_atribute);
+	Timezonelist::create($name, $selected, $attr);
 ```
 The first parameter is required, but the second and third is optional.
 
@@ -77,4 +77,5 @@ Example:
     ));
 ```
 
+#### Thanks for use
 Hopefully, this package is useful to you.
