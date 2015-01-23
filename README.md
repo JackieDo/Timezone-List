@@ -60,7 +60,7 @@ Example:
 You can also add multiple attribute
 Example:
 ```php
-	Timezonelist::create('timezone', null, 'class="styled" placeholder="Plese select a timezone"');
+	Timezonelist::create('timezone', null, 'class="styled" placeholder="Please select a timezone"');
 ```
 
 Hopefully, this package is useful to you.
