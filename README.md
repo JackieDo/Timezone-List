@@ -33,7 +33,7 @@ Once update operation completes, the final step is to add the service provider. 
 
 ### Usage
 
-- To render a timezone select box, use method Timezonelist::create($select_box_name).
+- To render a timezone select box, use method Timezonelist::create($name).
 
 Example:
 ```php
