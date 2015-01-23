@@ -33,7 +33,8 @@ Once update operation completes, the final step is to add the service provider. 
 
 ### Usage
 
-To render a timezone select box, use method Timezonelist::create($select_box_name).
+- To render a timezone select box, use method Timezonelist::create($select_box_name).
+
 Example:
 ```php
 	Timezonelist::create('timezone');
@@ -46,21 +47,34 @@ Method Timezonelist::create() have three parameters:
 The first parameter is required, but the second and third is optional.
 
 - The second parameter use to set selected value of list box.
+
 Example:
 ```php
 	Timezonelist::create('timezone', 'Asia/Ho_Chi_Minh');
 ```
 
-- The third parameter use to set HTML attribute of select tag
+- The third parameter use to set HTML attribute of select tag.
+
 Example:
 ```php
 	Timezonelist::create('timezone', null, 'class="styled"');
 ```
 
-You can also add multiple attribute
+You can also add multiple attribute.
+
 Example:
 ```php
 	Timezonelist::create('timezone', null, 'class="styled" placeholder="Please select a timezone"');
+```
+
+Or you can also add multiple attribute with one array.
+
+Example:
+```php
+	Timezonelist::create('timezone', null, array(
+        'class' => 'styled',
+        'placeholder' => 'Please select a timezone'
+    ));
 ```
 
 Hopefully, this package is useful to you.

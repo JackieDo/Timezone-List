@@ -35,7 +35,16 @@ class Timezonelist {
         );
         
         // Create listbox
-        $attrSet = (!empty($attr)) ? ' ' . $attr : '';
+        $attrSet = null;
+        if (!empty($attr)) {
+            if (is_array($attr)) {
+                foreach ($attr as $attr_name => $attr_value) {
+                    $attrSet .= ' ' .$attr_name. '="' .$attr_value. '"';
+                }
+            } else {
+                $attrSet = ' ' .$attr;
+            }
+        }
         $listbox = '<select name="' .$name. '"' .$attrSet. '>' . "\n";
         foreach ($continents as $name => $mask) {
             $zones = DateTimeZone::listIdentifiers($mask);
