@@ -53,23 +53,23 @@ class Timezonelist {
                 $listbox .= '</option>' . "\n";
             }
             $listbox .= "\t" . '</optgroup>' . "\n";
-            
-            // Add two option general: UTC and GMT
-            $listbox .= "\t" . '<optgroup label="General">' . "\n";
-            $listbox .= "\t\t" . '<option value="UTC"';
-            if ($selected == 'UTC') {
-                $listbox .= ' selected="selected"';
-            }
-            $listbox .= '>(UTC)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UTC timezone';
-            $listbox .= '</option>' . "\n";
-            $listbox .= "\t\t" . '<option value="GMT"';
-            if ($selected == 'GMT') {
-                $listbox .= ' selected="selected"';
-            }
-            $listbox .= '>(GMT)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GMT timezone';
-            $listbox .= '</option>' . "\n";
-            $listbox .= "\t" . '</optgroup>' . "\n";
         }
+        
+        // Add two option general: UTC and GMT
+        $listbox .= "\t" . '<optgroup label="General">' . "\n";
+        $listbox .= "\t\t" . '<option value="UTC"';
+        if ($selected == 'UTC') {
+            $listbox .= ' selected="selected"';
+        }
+        $listbox .= '>(UTC)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;UTC timezone';
+        $listbox .= '</option>' . "\n";
+        $listbox .= "\t\t" . '<option value="GMT"';
+        if ($selected == 'GMT') {
+            $listbox .= ' selected="selected"';
+        }
+        $listbox .= '>(GMT)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GMT timezone';
+        $listbox .= '</option>' . "\n";
+        $listbox .= "\t" . '</optgroup>' . "\n";
         $listbox .= '</select>' . "\n";
         
         // return lisbox
