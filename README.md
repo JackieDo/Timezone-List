@@ -2,7 +2,7 @@
 - Render a timezone listbox (select element) in Laravel
 - Render a timezone array in Laravel
 
-## Installation
+# Installation
 
 You can install this package through [Composer](https://getcomposer.org).
 
@@ -32,7 +32,7 @@ $ composer update
 ),
 ```
 
-### Usage
+# Usage
 
 ###### 1. Render a timezone listbox
 
@@ -93,5 +93,5 @@ Form::select('timezone', Timezonelist::toArray(), null, array(
 ));
 ```
 
-#### Thanks for use
+# Thanks for use
 Hopefully, this package is useful to you.
