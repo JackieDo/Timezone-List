@@ -12,7 +12,7 @@ You can install this package through [Composer](https://getcomposer.org).
 ...
 "require": {
 	...
-    "jackiedo/timezonelist": "dev-master"
+    "jackiedo/timezonelist": "4.*"
 },
 ```
 
