@@ -39,7 +39,7 @@ class TimezonelistServiceProvider extends ServiceProvider {
         $this->app['timezonelist'] = $this->app->share(function($app) {
             return new Timezonelist;
         });
-        
+
         $this->app->booting(function() {
             $loader = \Illuminate\Foundation\AliasLoader::getInstance();
             $loader->alias('Timezonelist', 'Jackiedo\Timezonelist\Facades\Timezonelist');

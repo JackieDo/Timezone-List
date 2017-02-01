@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * Timezonelist
- * 
+ *
  * @package    jackiedo/timezonelist
  * @subpackage facades
  * @author     Jackie Do <anhvudo@gmail.com>
@@ -12,14 +12,14 @@ use Illuminate\Support\Facades\Facade;
  */
 
 class Timezonelist extends Facade {
- 
+
     /**
     * Get the registered name of the component.
     *
     * @return string
     */
     protected static function getFacadeAccessor() { return 'timezonelist'; }
- 
+
 }
 
 ?>
