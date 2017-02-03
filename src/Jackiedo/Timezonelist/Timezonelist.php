@@ -1,17 +1,16 @@
 <?php namespace Jackiedo\Timezonelist;
 
-use DateTimeZone;
 use DateTime;
+use DateTimeZone;
 
 /**
- * Timezonelist
+ * The Timezonelist facade.
  *
- * @package    jackiedo/timezonelist
- * @author     Jackie Do <anhvudo@gmail.com>
- * @copyright  2015 Jackie Do
+ * @package Jackiedo\Timezonelist
+ * @author Jackie Do <anhvudo@gmail.com>
  */
-
-class Timezonelist {
+class Timezonelist
+{
     /**
      * Whitespace seperate
      */
