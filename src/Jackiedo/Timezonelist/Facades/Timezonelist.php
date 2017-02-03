@@ -3,23 +3,20 @@
 use Illuminate\Support\Facades\Facade;
 
 /**
- * Timezonelist
+ * The Timezonelist facade.
  *
- * @package    jackiedo/timezonelist
- * @subpackage facades
- * @author     Jackie Do <anhvudo@gmail.com>
- * @copyright  2015 Jackie Do
+ * @package Jackiedo\Timezonelist\Facades
+ * @author Jackie Do <anhvudo@gmail.com>
  */
-
-class Timezonelist extends Facade {
-
+class Timezonelist extends Facade
+{
     /**
-    * Get the registered name of the component.
-    *
-    * @return string
-    */
-    protected static function getFacadeAccessor() { return 'timezonelist'; }
-
+     * Get the registered name of the component.
+     *
+     * @return string
+     */
+    protected static function getFacadeAccessor()
+    {
+        return 'timezonelist';
+    }
 }
-
-?>

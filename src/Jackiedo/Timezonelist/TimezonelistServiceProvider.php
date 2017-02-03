@@ -1,15 +1,14 @@
 <?php namespace Jackiedo\Timezonelist;
 
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 
 /**
  * TimezonelistServiceProvider
  *
- * @package    jackiedo/timezonelist
- * @author     Jackie Do <anhvudo@gmail.com>
- * @copyright  2015 Jackie Do
+ * @package Jackiedo\Timezonelist
+ * @author Jackie Do <anhvudo@gmail.com>
  */
-
 class TimezonelistServiceProvider extends ServiceProvider {
 
 	/**
@@ -26,7 +25,7 @@ class TimezonelistServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->package('jackiedo/timezonelist');
+		//
 	}
 
 	/**
@@ -36,12 +35,12 @@ class TimezonelistServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-        $this->app['timezonelist'] = $this->app->share(function($app) {
-            return new Timezonelist;
-        });
+		$this->app->singleton('timezonelist', function($app) {
+			return new Timezonelist;
+		});
 
-        $this->app->booting(function() {
-            $loader = \Illuminate\Foundation\AliasLoader::getInstance();
+		$this->app->booting(function() {
+            $loader = AliasLoader::getInstance();
             $loader->alias('Timezonelist', 'Jackiedo\Timezonelist\Facades\Timezonelist');
         });
 	}
