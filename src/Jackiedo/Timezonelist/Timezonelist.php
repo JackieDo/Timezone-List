@@ -12,20 +12,60 @@ use DateTime;
  */
 
 class Timezonelist {
-    protected static $continents = array(
-        'Africa'        => DateTimeZone::AFRICA,
-        'America'       => DateTimeZone::AMERICA,
-        'Antarctica'    => DateTimeZone::ANTARCTICA,
-        'Arctic'        => DateTimeZone::ARCTIC,
-        'Asia'          => DateTimeZone::ASIA,
-        'Atlantic'      => DateTimeZone::ATLANTIC,
-        'Australia'     => DateTimeZone::AUSTRALIA,
-        'Europe'        => DateTimeZone::EUROPE,
-        'Indian'        => DateTimeZone::INDIAN,
-        'Pacific'       => DateTimeZone::PACIFIC
-    );
+    /**
+     * Whitespace seperate
+     */
+    const WHITESPACE_SEP = '&nbsp;&nbsp;&nbsp;&nbsp;';
 
-    const WHITESPACE_SEP = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+    /**
+     * Popular timezones
+     *
+     * @var array
+     */
+    protected $popularTimezones = [
+        'GMT' => 'GMT timezone',
+        'UTC' => 'UTC timezone',
+    ];
+
+    /**
+     * All continents of the world
+     *
+     * @var array
+     */
+    protected $continents = [
+        'Africa'     => DateTimeZone::AFRICA,
+        'America'    => DateTimeZone::AMERICA,
+        'Antarctica' => DateTimeZone::ANTARCTICA,
+        'Arctic'     => DateTimeZone::ARCTIC,
+        'Asia'       => DateTimeZone::ASIA,
+        'Atlantic'   => DateTimeZone::ATLANTIC,
+        'Australia'  => DateTimeZone::AUSTRALIA,
+        'Europe'     => DateTimeZone::EUROPE,
+        'Indian'     => DateTimeZone::INDIAN,
+        'Pacific'    => DateTimeZone::PACIFIC
+    ];
+
+    /**
+     * Format to display timezones
+     *
+     * @param  string $timezone
+     * @param  string $continent
+     *
+     * @return string
+     */
+    protected function formatTimezone($timezone, $continent) {
+        $time = new DateTime(NULL, new DateTimeZone($timezone));
+        $offset = $time->format('P');
+        $offset = str_replace('-', ' &minus; ', $offset);
+        $offset = str_replace('+', ' &plus; ', $offset);
+
+        $timezone = substr($timezone, strlen($continent) + 1);
+        $timezone = str_replace('St_', 'St. ', $timezone);
+        $timezone = str_replace('_', ' ', $timezone);
+
+        $formatted = '(GMT/UTC' . $offset . ')' . self::WHITESPACE_SEP . $timezone;
+        return $formatted;
+    }
 
     /**
      * Create a GMT timezone select element for form
@@ -35,9 +75,9 @@ class Timezonelist {
      * @param mixed $attr
      * @return string
      **/
-    public static function create($name, $selected='', $attr='') {
+    public function create($name, $selected='', $attr='') {
 
-        // Create listbox
+        // Attributes for select element
         $attrSet = null;
         if (!empty($attr)) {
             if (is_array($attr)) {
@@ -48,43 +88,41 @@ class Timezonelist {
                 $attrSet = ' ' .$attr;
             }
         }
-        $listbox = '<select name="' .$name. '"' .$attrSet. '>' . "\n";
-        foreach (self::$continents as $name => $mask) {
-            $zones = DateTimeZone::listIdentifiers($mask);
-            $listbox .= "\t" . '<optgroup label="' .$name. '">' . "\n";
-            foreach ($zones as $timezone) {
-                // Lets sample the time there right now
-            	$time = new DateTime(NULL, new DateTimeZone($timezone));
 
-                // selected atribute
+        // start select element
+        $listbox = '<select name="' .$name. '"' .$attrSet. '>';
+
+        // Add popular timezones
+        $listbox .= '<optgroup label="General">';
+        foreach ($this->popularTimezones as $key => $value) {
+            $selected_attr = ($selected == $key) ? ' selected="selected"' : '';
+            $listbox .= '<option value="' .$key. '"' .$selected_attr. '>' .$value. '</option>';
+        }
+        $listbox .= '</optgroup>';
+
+        // Add all timezone of continents
+        foreach ($this->continents as $continent => $mask) {
+            $timezones = DateTimeZone::listIdentifiers($mask);
+
+            // start optgroup tag
+            $listbox .= '<optgroup label="' .$continent. '">';
+
+            // create option tags
+            foreach ($timezones as $timezone) {
                 $selected_attr = ($selected == $timezone) ? ' selected="selected"' : '';
 
-                // Create options tag
-                $listbox .= "\t\t" . '<option value="' .$timezone. '"' .$selected_attr. '>';
-                $listbox .= '(GMT' . $time->format('P') . ')' . self::WHITESPACE_SEP . str_replace('_', ' ', substr($timezone, strlen($name) + 1));
-                $listbox .= '</option>' . "\n";
+                $listbox .= '<option value="' .$timezone. '"' .$selected_attr. '>';
+                $listbox .= $this->formatTimezone($timezone, $continent);
+                $listbox .= '</option>';
             }
-            $listbox .= "\t" . '</optgroup>' . "\n";
+
+            // end optgroup tag
+            $listbox .= '</optgroup>';
         }
 
-        // Add two options general: UTC and GMT
-        $listbox .= "\t" . '<optgroup label="General">' . "\n";
-        $listbox .= "\t\t" . '<option value="UTC"';
-        if ($selected == 'UTC') {
-            $listbox .= ' selected="selected"';
-        }
-        $listbox .= '>(UTC)' . self::WHITESPACE_SEP . 'UTC timezone';
-        $listbox .= '</option>' . "\n";
-        $listbox .= "\t\t" . '<option value="GMT"';
-        if ($selected == 'GMT') {
-            $listbox .= ' selected="selected"';
-        }
-        $listbox .= '>(GMT)' . self::WHITESPACE_SEP . 'GMT timezone';
-        $listbox .= '</option>' . "\n";
-        $listbox .= "\t" . '</optgroup>' . "\n";
-        $listbox .= '</select>' . "\n";
+        // end select element
+        $listbox .= '</select>';
 
-        // return lisbox
         return $listbox;
     }
 
@@ -93,28 +131,23 @@ class Timezonelist {
      *
      * @return mixed
      **/
-    public static function toArray() {
+    public function toArray() {
 
-        // Create $timezones array
-        $timezones = array();
-        foreach (self::$continents as $name => $mask) {
-            $zones = DateTimeZone::listIdentifiers($mask);
-            foreach ($zones as $timezone) {
-                // Lets sample the time there right now
-            	$time = new DateTime(NULL, new DateTimeZone($timezone));
+        $list = [];
 
-                // Add timezone into $timezone array
-                $timezones[$name][$timezone] = '(GMT' . $time->format('P') . ')' . self::WHITESPACE_SEP . str_replace('_', ' ', substr($timezone, strlen($name) + 1));
+        // Add popular timezones to list
+        foreach ($this->popularTimezones as $key => $value) {
+            $list['General'][$key] = $value;
+        }
+
+        // Add all timezone of continents to list
+        foreach ($this->continents as $continent => $mask) {
+            $timezones = DateTimeZone::listIdentifiers($mask);
+            foreach ($timezones as $timezone) {
+                $list[$continent][$timezone] = $this->formatTimezone($timezone, $continent);
             }
         }
 
-        // Add two elements general: UTC and GMT to $timezones array
-        $timezones['General']['UTC'] = '(UTC)' . self::WHITESPACE_SEP . 'UTC timezone';
-        $timezones['General']['GMT'] = '(GMT)' . self::WHITESPACE_SEP . 'GMT timezone';
-
-        // return $timezones array
-        return $timezones;
+        return $list;
     }
 }
-
-?>

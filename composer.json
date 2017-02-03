@@ -1,6 +1,6 @@
 {
     "name": "jackiedo/timezonelist",
-    "description": "A small package use to create a timezone list box in Laravel 4",
+    "description": "A small package use to create a timezone list box in Laravel",
     "keywords": ["timezone", "timezones", "timezonelist", "laravel"],
     "license": "MIT",
     "authors": [
