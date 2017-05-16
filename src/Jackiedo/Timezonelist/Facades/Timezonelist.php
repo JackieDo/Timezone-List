@@ -11,15 +11,16 @@ use Illuminate\Support\Facades\Facade;
  * @copyright  2015 Jackie Do
  */
 
-class Timezonelist extends Facade {
+class Timezonelist extends Facade
+{
 
     /**
     * Get the registered name of the component.
     *
     * @return string
     */
-    protected static function getFacadeAccessor() { return 'timezonelist'; }
-
+    protected static function getFacadeAccessor()
+    {
+        return 'timezonelist';
+    }
 }
-
-?>

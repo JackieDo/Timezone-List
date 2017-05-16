@@ -11,7 +11,8 @@ use DateTime;
  * @copyright  2015 Jackie Do
  */
 
-class Timezonelist {
+class Timezonelist
+{
     /**
      * Whitespace seperate
      */
@@ -53,8 +54,9 @@ class Timezonelist {
      *
      * @return string
      */
-    protected function formatTimezone($timezone, $continent) {
-        $time = new DateTime(NULL, new DateTimeZone($timezone));
+    protected function formatTimezone($timezone, $continent)
+    {
+        $time = new DateTime(null, new DateTimeZone($timezone));
         $offset = $time->format('P');
         $offset = str_replace('-', ' &minus; ', $offset);
         $offset = str_replace('+', ' &plus; ', $offset);
@@ -75,7 +77,8 @@ class Timezonelist {
      * @param mixed $attr
      * @return string
      **/
-    public function create($name, $selected='', $attr='') {
+    public function create($name, $selected='', $attr='')
+    {
 
         // Attributes for select element
         $attrSet = null;
@@ -131,8 +134,8 @@ class Timezonelist {
      *
      * @return mixed
      **/
-    public function toArray() {
-
+    public function toArray()
+    {
         $list = [];
 
         // Add popular timezones to list
