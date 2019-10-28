@@ -1,4 +1,11 @@
-# Feature
+# Laravel Timezone List
+
+[![Latest Stable Version](https://poser.pugx.org/yupmin/timezonelist/v/stable)](https://packagist.org/packages/yupmin/timezonelist)
+[![Total Downloads](https://poser.pugx.org/yupmin/timezonelist/downloads)](https://packagist.org/packages/yupmin/timezonelist)
+[![License](https://poser.pugx.org/yupmin/timezonelist/license)](https://packagist.org/packages/yupmin/timezonelist)
+[![Coding Standards](https://img.shields.io/badge/cs-PSR--2--R-yellow.svg)](https://github.com/php-fig-rectified/fig-rectified-standards)
+
+## Feature
 - Render a timezone listbox (select element) in Laravel
 - Render a timezone array in Laravel
 - fix for laravel 6.0 : [original package](https://github.com/JackieDo/Timezone-List)

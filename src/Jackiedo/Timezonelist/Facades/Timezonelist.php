@@ -1,4 +1,6 @@
-<?php namespace Jackiedo\Timezonelist\Facades;
+<?php
+
+namespace Jackiedo\Timezonelist\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

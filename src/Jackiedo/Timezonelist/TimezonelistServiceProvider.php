@@ -1,4 +1,6 @@
-<?php namespace Jackiedo\Timezonelist;
+<?php
+
+namespace Jackiedo\Timezonelist;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
@@ -37,7 +39,7 @@ class TimezonelistServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('timezonelist', function ($app) {
-            return new Timezonelist;
+            return new Timezonelist();
         });
 
         $this->app->booting(function () {
