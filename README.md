@@ -1,6 +1,7 @@
 # Feature
 - Render a timezone listbox (select element) in Laravel
 - Render a timezone array in Laravel
+- fix for laravel 6.0 : [original package](https://github.com/JackieDo/Timezone-List)
 
 ## Versions and compatibility
 
@@ -8,39 +9,14 @@ Currently, there are some branches of Timezone-List is compatible with the follo
 
 | Timezone-List branch                                          | Laravel version  |
 | ------------------------------------------------------------- | ---------------- |
-| [4.x](https://github.com/JackieDo/Timezone-List/tree/4.x)     | 4.x              |
-| [5.x](https://github.com/JackieDo/Timezone-List/tree/5.x)     | 5.x              |
+| [5.x](https://github.com/yupmin/Timezone-List/tree/5.x)       | 5.5~5.8,6.0   |
 
-This documentation is use for Laravel 5.x
+This documentation is use for Laravel 5.5~5.8, 6.0
 
 # Installation
 
-You can install this package through [Composer](https://getcomposer.org).
-
-- First, edit your project's `composer.json` file to require `jackiedo/timezonelist`:
-
-```php
-...
-"require": {
-	...
-    "jackiedo/timezonelist": "5.*"
-},
-```
-
-- Next, update Composer from the Terminal:
-
 ```shell
-$ composer update
-```
-
-- Once update operation completes, the final step is to add the service provider. Open `config/app.php`, and add a new item to the providers array:
-
-```php
-...
-'providers' => array(
-    ...
-    Jackiedo\Timezonelist\TimezonelistServiceProvider::class,
-),
+composer require yupmin/timezonelist
 ```
 
 # Usage
