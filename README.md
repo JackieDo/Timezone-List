@@ -9,7 +9,7 @@ Currently, there are some branches of Timezone-List is compatible with the follo
 
 | Timezone-List branch                                          | Laravel version  |
 | ------------------------------------------------------------- | ---------------- |
-| [5.x](https://github.com/yupmin/Timezone-List/tree/5.x)       | 5.5~5.8,6.0   |
+| [master](https://github.com/yupmin/Timezone-List/tree/master) | 5.5~5.8,6.0   |
 
 This documentation is use for Laravel 5.5~5.8, 6.0
 
