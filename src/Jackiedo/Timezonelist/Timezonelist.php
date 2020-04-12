@@ -54,8 +54,9 @@ class Timezonelist
      */
     protected function formatTimezone($timezone, $continent, $htmlencode=true)
     {
-        $time = new DateTime(null, new DateTimeZone($timezone));
+        $time   = new DateTime(null, new DateTimeZone($timezone));
         $offset = $time->format('P');
+
 		if ($htmlencode) {
 			$offset = str_replace('-', ' &minus; ', $offset);
 			$offset = str_replace('+', ' &plus; ', $offset);
@@ -72,16 +73,18 @@ class Timezonelist
     /**
      * Create a GMT timezone select element for form
      *
-     * @param string $name
-     * @param string $selected
-     * @param mixed $attr
+     * @param  string $name
+     * @param  string $selected
+     * @param  mixed $attr
+     * @param  boolean $htmlencode
+     *
      * @return string
      **/
     public function create($name, $selected='', $attr='', $htmlencode=true)
     {
-
         // Attributes for select element
         $attrSet = null;
+
         if (!empty($attr)) {
             if (is_array($attr)) {
                 foreach ($attr as $attr_name => $attr_value) {
@@ -97,10 +100,12 @@ class Timezonelist
 
         // Add popular timezones
         $listbox .= '<optgroup label="General">';
+
         foreach ($this->popularTimezones as $key => $value) {
             $selected_attr = ($selected == $key) ? ' selected="selected"' : '';
             $listbox .= '<option value="' .$key. '"' .$selected_attr. '>' .$value. '</option>';
         }
+
         $listbox .= '</optgroup>';
 
         // Add all timezone of continents
@@ -146,6 +151,7 @@ class Timezonelist
         // Add all timezone of continents to list
         foreach ($this->continents as $continent => $mask) {
             $timezones = DateTimeZone::listIdentifiers($mask);
+
             foreach ($timezones as $timezone) {
                 $list[$continent][$timezone] = $this->formatTimezone($timezone, $continent, $htmlencode);
             }
