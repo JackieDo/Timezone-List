@@ -52,12 +52,14 @@ class Timezonelist
      *
      * @return string
      */
-    protected function formatTimezone($timezone, $continent)
+    protected function formatTimezone($timezone, $continent, $htmlencode=true)
     {
         $time = new DateTime(null, new DateTimeZone($timezone));
         $offset = $time->format('P');
-        $offset = str_replace('-', ' &minus; ', $offset);
-        $offset = str_replace('+', ' &plus; ', $offset);
+		if ($htmlencode) {
+			$offset = str_replace('-', ' &minus; ', $offset);
+			$offset = str_replace('+', ' &plus; ', $offset);
+		}
 
         $timezone = substr($timezone, strlen($continent) + 1);
         $timezone = str_replace('St_', 'St. ', $timezone);
@@ -75,7 +77,7 @@ class Timezonelist
      * @param mixed $attr
      * @return string
      **/
-    public function create($name, $selected='', $attr='')
+    public function create($name, $selected='', $attr='', $htmlencode=true)
     {
 
         // Attributes for select element
@@ -113,7 +115,7 @@ class Timezonelist
                 $selected_attr = ($selected == $timezone) ? ' selected="selected"' : '';
 
                 $listbox .= '<option value="' .$timezone. '"' .$selected_attr. '>';
-                $listbox .= $this->formatTimezone($timezone, $continent);
+                $listbox .= $this->formatTimezone($timezone, $continent, $htmlencode);
                 $listbox .= '</option>';
             }
 
@@ -132,7 +134,7 @@ class Timezonelist
      *
      * @return mixed
      **/
-    public function toArray()
+    public function toArray($htmlencode=true)
     {
         $list = [];
 
@@ -145,7 +147,7 @@ class Timezonelist
         foreach ($this->continents as $continent => $mask) {
             $timezones = DateTimeZone::listIdentifiers($mask);
             foreach ($timezones as $timezone) {
-                $list[$continent][$timezone] = $this->formatTimezone($timezone, $continent);
+                $list[$continent][$timezone] = $this->formatTimezone($timezone, $continent, $htmlencode);
             }
         }
 
