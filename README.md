@@ -1,3 +1,10 @@
+# Laravel Timezone List
+
+[![Latest Stable Version](https://poser.pugx.org/jackiedo/timezonelist/v/stable)](https://packagist.org/packages/jackiedo/timezonelist)
+[![Total Downloads](https://poser.pugx.org/jackiedo/timezonelist/downloads)](https://packagist.org/packages/jackiedo/timezonelist)
+[![Latest Unstable Version](https://poser.pugx.org/jackiedo/timezonelist/v/unstable)](https://packagist.org/packages/jackiedo/timezonelist)
+[![License](https://poser.pugx.org/jackiedo/timezonelist/license)](https://packagist.org/packages/jackiedo/timezonelist)
+
 # Feature
 - Render a timezone listbox (select element) in Laravel
 - Render a timezone array in Laravel
@@ -6,10 +13,10 @@
 
 Currently, there are some branches of Timezone-List is compatible with the following version of Laravel framework
 
-| Timezone-List branch                                          | Laravel version  |
-| ------------------------------------------------------------- | ---------------- |
-| [4.x](https://github.com/JackieDo/Timezone-List/tree/4.x)     | 4.x              |
-| [5.x](https://github.com/JackieDo/Timezone-List/tree/5.x)     | 5.x              |
+| Timezone-List branch                                      | Laravel version |
+| --------------------------------------------------------- | --------------- |
+| [4.x](https://github.com/JackieDo/Timezone-List/tree/4.x) | 4.x             |
+| [5.x](https://github.com/JackieDo/Timezone-List/tree/5.x) | 5.x and above   |
 
 This documentation is use for Laravel 5.x
 
@@ -33,7 +40,9 @@ You can install this package through [Composer](https://getcomposer.org).
 $ composer update
 ```
 
-- Once update operation completes, the final step is to add the service provider. Open `config/app.php`, and add a new item to the providers array:
+> **Note:** Instead of performing the above two steps, it may be faster to use the command line `$ composer require jackiedo/timezonelist:5.*`.
+
+- Since Laravel 5.5, [service providers and aliases are automatically registered](https://laravel.com/docs/5.5/packages#package-discovery). But if you are using Laravel 5.4 and earlier, you must register the service provider manually. Open `config/app.php`, and add a new item to the providers array:
 
 ```php
 ...
