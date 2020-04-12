@@ -18,5 +18,12 @@
             "Jackiedo\\Timezonelist\\": "src/Jackiedo/Timezonelist"
         }
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Jackiedo\\Timezonelist\\TimezonelistServiceProvider"
+            ]
+        }
+    },
     "minimum-stability": "stable"
 }
