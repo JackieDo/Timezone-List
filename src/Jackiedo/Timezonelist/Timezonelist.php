@@ -66,7 +66,7 @@ class Timezonelist
         $timezone = str_replace('St_', 'St. ', $timezone);
         $timezone = str_replace('_', ' ', $timezone);
 
-        $formatted = '(GMT/UTC' . $offset . ')' . self::WHITESPACE_SEP . $timezone;
+        $formatted = '(GMT/UTC' . $offset . ')' . ($htmlencode ? self::WHITESPACE_SEP : ' ') . $timezone;
         return $formatted;
     }
 
