@@ -54,7 +54,7 @@ class Timezonelist
      */
     protected function formatTimezone($timezone, $continent, $htmlencode=true)
     {
-        $time   = new DateTime(null, new DateTimeZone($timezone));
+        $time   = new DateTime('', new DateTimeZone($timezone));
         $offset = $time->format('P');
 
 		if ($htmlencode) {
