@@ -1,11 +1,14 @@
-<?php namespace Jackiedo\Timezonelist\Facades;
+<?php
+
+namespace Jackiedo\Timezonelist\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
 /**
  * The Timezonelist facade.
  *
- * @package Jackiedo\Timezonelist\Facades
+ * @package Jackiedo\Timezonelist
+ *
  * @author Jackie Do <anhvudo@gmail.com>
  */
 class Timezonelist extends Facade

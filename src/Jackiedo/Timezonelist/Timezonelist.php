@@ -1,33 +1,38 @@
-<?php namespace Jackiedo\Timezonelist;
+<?php
+
+namespace Jackiedo\Timezonelist;
 
 use DateTime;
 use DateTimeZone;
 
 /**
- * The Timezonelist facade.
+ * The Timezonelist class.
  *
  * @package Jackiedo\Timezonelist
+ *
  * @author Jackie Do <anhvudo@gmail.com>
  */
 class Timezonelist
 {
     /**
-     * Whitespace seperate
+     * HTML entities.
      */
-    const WHITESPACE_SEP = '&nbsp;&nbsp;&nbsp;&nbsp;';
+    public const MINUS      = '&#8722;';
+    public const PLUS       = '&#43;';
+    public const WHITESPACE = '&#160;';
 
     /**
-     * Popular timezones
+     * General timezones.
      *
      * @var array
      */
-    protected $popularTimezones = [
+    protected $generalTimezones = [
         'GMT' => 'GMT timezone',
         'UTC' => 'UTC timezone',
     ];
 
     /**
-     * All continents of the world
+     * All continents of the world.
      *
      * @var array
      */
@@ -41,46 +46,20 @@ class Timezonelist
         'Australia'  => DateTimeZone::AUSTRALIA,
         'Europe'     => DateTimeZone::EUROPE,
         'Indian'     => DateTimeZone::INDIAN,
-        'Pacific'    => DateTimeZone::PACIFIC
+        'Pacific'    => DateTimeZone::PACIFIC,
     ];
 
     /**
-     * Format to display timezones
+     * Create a GMT timezone select element for form.
      *
-     * @param  string $timezone
-     * @param  string $continent
+     * @param string            $name
+     * @param string            $selected
+     * @param null|array|string $attr
+     * @param bool              $htmlencode
      *
      * @return string
      */
-    protected function formatTimezone($timezone, $continent, $htmlencode=true)
-    {
-        $time   = new DateTime('', new DateTimeZone($timezone));
-        $offset = $time->format('P');
-
-		if ($htmlencode) {
-			$offset = str_replace('-', ' &minus; ', $offset);
-			$offset = str_replace('+', ' &plus; ', $offset);
-		}
-
-        $timezone = substr($timezone, strlen($continent) + 1);
-        $timezone = str_replace('St_', 'St. ', $timezone);
-        $timezone = str_replace('_', ' ', $timezone);
-
-        $formatted = '(GMT/UTC' . $offset . ')' . ($htmlencode ? self::WHITESPACE_SEP : ' ') . $timezone;
-        return $formatted;
-    }
-
-    /**
-     * Create a GMT timezone select element for form
-     *
-     * @param  string $name
-     * @param  string $selected
-     * @param  mixed $attr
-     * @param  boolean $htmlencode
-     *
-     * @return string
-     **/
-    public function create($name, $selected='', $attr='', $htmlencode=true)
+    public function create($name, $selected = '', $attr = null, $htmlencode = true)
     {
         // Attributes for select element
         $attrSet = null;
@@ -88,38 +67,45 @@ class Timezonelist
         if (!empty($attr)) {
             if (is_array($attr)) {
                 foreach ($attr as $attr_name => $attr_value) {
-                    $attrSet .= ' ' .$attr_name. '="' .$attr_value. '"';
+                    $attrSet .= ' ' . $attr_name . '="' . $attr_value . '"';
                 }
             } else {
-                $attrSet = ' ' .$attr;
+                $attrSet = ' ' . $attr;
             }
         }
 
         // start select element
-        $listbox = '<select name="' .$name. '"' .$attrSet. '>';
+        $listbox = '<select name="' . $name . '"' . $attrSet . '>';
 
         // Add popular timezones
-        $listbox .= '<optgroup label="General">';
+        if (!empty($this->generalTimezones)) {
+            // start optgroup tag
+            $listbox .= '<optgroup label="General">';
 
-        foreach ($this->popularTimezones as $key => $value) {
-            $selected_attr = ($selected == $key) ? ' selected="selected"' : '';
-            $listbox .= '<option value="' .$key. '"' .$selected_attr. '>' .$value. '</option>';
+            foreach ($this->generalTimezones as $key => $value) {
+                $selected_attr = ($selected == $key) ? ' selected="selected"' : '';
+
+                $listbox .= '<option value="' . $key . '"' . $selected_attr . '>';
+                $listbox .= $value;
+                $listbox .= '</option>';
+            }
+
+            // end optgroup tag
+            $listbox .= '</optgroup>';
         }
-
-        $listbox .= '</optgroup>';
 
         // Add all timezone of continents
         foreach ($this->continents as $continent => $mask) {
             $timezones = DateTimeZone::listIdentifiers($mask);
 
             // start optgroup tag
-            $listbox .= '<optgroup label="' .$continent. '">';
+            $listbox .= '<optgroup label="' . $continent . '">';
 
             // create option tags
             foreach ($timezones as $timezone) {
                 $selected_attr = ($selected == $timezone) ? ' selected="selected"' : '';
 
-                $listbox .= '<option value="' .$timezone. '"' .$selected_attr. '>';
+                $listbox .= '<option value="' . $timezone . '"' . $selected_attr . '>';
                 $listbox .= $this->formatTimezone($timezone, $continent, $htmlencode);
                 $listbox .= '</option>';
             }
@@ -135,17 +121,19 @@ class Timezonelist
     }
 
     /**
-     * Create a timezone array
+     * Create a timezone array.
+     *
+     * @param bool $htmlencode
      *
      * @return mixed
-     **/
-    public function toArray($htmlencode=true)
+     */
+    public function toArray($htmlencode = true)
     {
         $list = [];
 
         // Add popular timezones to list
-        foreach ($this->popularTimezones as $key => $value) {
-            $list['General'][$key] = $value;
+        if (!empty($this->generalTimezones)) {
+            $list['General'] = $this->generalTimezones;
         }
 
         // Add all timezone of continents to list
@@ -158,5 +146,40 @@ class Timezonelist
         }
 
         return $list;
+    }
+
+    /**
+     * Format to display timezones.
+     *
+     * @param string $timezone
+     * @param string $continent
+     * @param bool   $htmlencode
+     *
+     * @return string
+     */
+    protected function formatTimezone($timezone, $continent, $htmlencode = true)
+    {
+        // The replacement
+        $replacement = [
+            'offset' => [
+                'search'  => ['-', '+'],
+                'replace' => $htmlencode ? [' ' . self::MINUS . ' ', ' ' . self::PLUS . ' '] : [' - ', ' + '],
+            ],
+            'timezone' => [
+                'search'  => ['St_', '_'],
+                'replace' => ['St. ', ' '],
+            ],
+        ];
+
+        // Identify returned parts
+        $time     = new DateTime('', new DateTimeZone($timezone));
+        $offset   = $time->format('P');
+        $timezone = substr($timezone, strlen($continent) + 1);
+
+        // Replace returned parts using replacement
+        $offset   = str_replace($replacement['offset']['search'], $replacement['offset']['replace'], $offset);
+        $timezone = str_replace($replacement['timezone']['search'], $replacement['timezone']['replace'], $timezone);
+
+        return '(GMT/UTC' . $offset . ')' . ($htmlencode ? str_repeat(self::WHITESPACE, 5) : ' ') . $timezone;
     }
 }

@@ -1,17 +1,19 @@
-<?php namespace Jackiedo\Timezonelist;
+<?php
+
+namespace Jackiedo\Timezonelist;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 
 /**
- * TimezonelistServiceProvider
+ * TimezonelistServiceProvider.
  *
  * @package Jackiedo\Timezonelist
+ *
  * @author Jackie Do <anhvudo@gmail.com>
  */
 class TimezonelistServiceProvider extends ServiceProvider
 {
-
     /**
      * Indicates if loading of the provider is deferred.
      *
