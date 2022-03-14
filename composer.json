@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Jackiedo\\Timezonelist\\": "src/Jackiedo/Timezonelist"
+            "Jackiedo\\Timezonelist\\": "src/"
         }
     },
     "extra": {
