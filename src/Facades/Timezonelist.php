@@ -7,9 +7,10 @@ use Illuminate\Support\Facades\Facade;
 /**
  * The Timezonelist facade.
  *
- * @package Jackiedo\Timezonelist
+ * @method static string create(string $name, null|string $selected = null, null|array|string $attr = null, bool $htmlencode = true)
+ * @method static array toArray(bool $htmlencode = true)
  *
- * @author Jackie Do <anhvudo@gmail.com>
+ * @see \Jackiedo\Timezonelist\Timezonelist
  */
 class Timezonelist extends Facade
 {

@@ -52,14 +52,14 @@ class Timezonelist
     /**
      * Create a GMT timezone select element for form.
      *
-     * @param string            $name
-     * @param string            $selected
-     * @param null|array|string $attr
-     * @param bool              $htmlencode
+     * @param string            $name       The name of the select tag
+     * @param null|string       $selected   The selected value
+     * @param null|array|string $attr       The HTML attributes of select thag
+     * @param bool              $htmlencode Use HTML entities for values of select tag
      *
      * @return string
      */
-    public function create($name, $selected = '', $attr = null, $htmlencode = true)
+    public function create($name, $selected = null, $attr = null, $htmlencode = true)
     {
         // Attributes for select element
         $attrSet = null;
@@ -123,7 +123,7 @@ class Timezonelist
     /**
      * Create a timezone array.
      *
-     * @param bool $htmlencode
+     * @param bool $htmlencode Use HTML entities for items
      *
      * @return mixed
      */
