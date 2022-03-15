@@ -632,7 +632,7 @@ Timezonelist::create('timezone', null, 'id="timezone" class="styled"');
 
 > Example of the difference of the `fourth parameter`
 
-![Example-render-select-tag](https://user-images.githubusercontent.com/9862115/158336644-89567ebd-4b67-42cc-9ab4-8c4616247107.jpg)
+![Example-render-select-tag](https://user-images.githubusercontent.com/9862115/158337825-67320026-37ad-4b26-a6a2-2a5df810740c.jpg)
 
 #### Render a timezone array
 
