@@ -3,7 +3,6 @@
 [![Fix coding standards](https://github.com/JackieDo/Timezone-List/actions/workflows/fix-coding-standards.yml/badge.svg?branch=5.x)](https://github.com/JackieDo/Timezone-List/actions/workflows/fix-coding-standards.yml)
 [![Latest Stable Version](https://poser.pugx.org/jackiedo/timezonelist/v/stable)](https://packagist.org/packages/jackiedo/timezonelist)
 [![Total Downloads](https://poser.pugx.org/jackiedo/timezonelist/downloads)](https://packagist.org/packages/jackiedo/timezonelist)
-[![Latest Unstable Version](https://poser.pugx.org/jackiedo/timezonelist/v/unstable)](https://packagist.org/packages/jackiedo/timezonelist)
 [![License](https://poser.pugx.org/jackiedo/timezonelist/license)](https://packagist.org/packages/jackiedo/timezonelist)
 
 # Overview
@@ -14,15 +13,15 @@
 - [Versions and compatibility](#versions-and-compatibility)
 - [Documentation](#documentation)
   - [Installation](#installation)
-    - [Step 1 - Require Package](#step-1---require-package)
-    - [Step 2 - Register Service Provider](#step-2---register-service-provider)
-    - [Step 3 - Register Facade Alias](#step-3---register-facade-alias)
+      - [Step 1 - Require Package](#step-1---require-package)
+      - [Step 2 - Register Service Provider](#step-2---register-service-provider)
+      - [Step 3 - Register Facade Alias](#step-3---register-facade-alias)
   - [Usage](#usage)
-    - [Working With Facade](#working-with-facade)
-    - [Using As Regular Class](#using-as-regular-class)
+      - [Working With Facade](#working-with-facade)
+      - [Using As Regular Class](#using-as-regular-class)
   - [Available Methods](#available-methods)
-    - [Render a timezone listbox](#render-a-timezone-listbox)
-    - [Render a timezone array](#render-a-timezone-array)
+      - [Render a timezone listbox](#render-a-timezone-listbox)
+      - [Render a timezone array](#render-a-timezone-array)
 - [Contributors](#contributors)
 - [License](#license)
 
@@ -47,7 +46,7 @@ Currently, there are some branches of Timezone-List is compatible with the follo
 
 You can install this package through [Composer](https://getcomposer.org) with the following steps:
 
-### Step 1 - Require Package
+#### Step 1 - Require Package
 
 At the root of your application directory, run the following command (in any terminal client):
 
@@ -57,7 +56,7 @@ $ composer require jackiedo/timezonelist
 
 > **Note:** Since Laravel 5.5, [service providers and aliases are automatically registered](https://laravel.com/docs/5.5/packages#package-discovery). But if you are using Laravel 5.4 and earlier, you must register the Service Provider and the Facade manually. Do the following steps:
 
-### Step 2 - Register Service Provider
+#### Step 2 - Register Service Provider
 
 Open `config/app.php`, and add a new line to the providers section:
 
@@ -66,7 +65,7 @@ Open `config/app.php`, and add a new line to the providers section:
 Jackiedo\Timezonelist\TimezonelistServiceProvider::class,
 ```
 
-### Step 3 - Register Facade Alias
+#### Step 3 - Register Facade Alias
 Add the following line to the aliases section in file `config/app.php`:
 
 ```php
@@ -75,7 +74,7 @@ Add the following line to the aliases section in file `config/app.php`:
 
 ## Usage
 
-### Working With Facade
+#### Working With Facade
 
 Laravel Timezone List has a facade with the fully qualified namespace is `Jackiedo\Timezonelist\Facades\Timezonelist`. You can perform all operations through this facade.
 
@@ -108,7 +107,7 @@ class YourClass
 </div>
 ```
 
-### Using As Regular Class
+#### Using As Regular Class
 
 You can completely use the package through the `Jackiedo\Timezonelist\Timezonelist` class like using a regular object class.
 
@@ -133,7 +132,7 @@ class YourClass
 
 ## Available Methods
 
-### Render a timezone listbox
+#### Render a timezone listbox
 
 **Syntax:**
 
@@ -631,7 +630,7 @@ Timezonelist::create('timezone', null, [
 Timezonelist::create('timezone', null, 'id="timezone" class="styled"');
 ```
 
-### Render a timezone array
+#### Render a timezone array
 
 **Syntax:**
 
