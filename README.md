@@ -606,14 +606,14 @@ This will output the following:
 </select>
 ```
 
-The `Timezonelist::create()` method has four parameters:
+> The `Timezonelist::create()` method has four parameters:
 
 - The first parameter is required, it is the name attribute of the rendered select tag
 - The second parameter use to set selected value of list box.
 - The third parameter use to set HTML attribute of select tag.
 - The fourth parameter allow to use some HTML entities in the rendered select tag. The purpose is to make the element look better.
 
-Example:
+**Example:**
 
 ```php
 // Render a select tag with the name `timezone` and the `Africa/Asmara` option preselected
@@ -629,6 +629,10 @@ Timezonelist::create('timezone', null, [
 // Or with other method
 Timezonelist::create('timezone', null, 'id="timezone" class="styled"');
 ```
+
+> Example of the difference of the `fourth parameter`
+
+![Example-render-select-tag](https://user-images.githubusercontent.com/9862115/158336644-89567ebd-4b67-42cc-9ab4-8c4616247107.jpg)
 
 #### Render a timezone array
 
