@@ -418,7 +418,7 @@ class Timezonelist
     protected function normalizeTimezone($timezone, $htmlencode = true)
     {
         $search  = ['St_', '/', '_'];
-        $replace = ['St. ', ' / ' , ' '];
+        $replace = ['St. ', ' / ', ' '];
 
         return str_replace($search, $replace, $timezone);
     }
