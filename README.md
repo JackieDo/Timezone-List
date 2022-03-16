@@ -163,7 +163,7 @@ public function toSelectBox($name, $selected = null, $attr = null, $htmlencode =
  */
 public function create($name, $selected = null, $attr = null, $htmlencode = true);
 ```
-> Note: the `create()` method will bew removed in the version 6.x
+> Note: the `create()` method will be removed in the version 6.x
 
 **Example:**
 
