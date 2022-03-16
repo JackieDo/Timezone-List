@@ -154,55 +154,6 @@ class Timezonelist
     }
 
     /**
-     * Create a select box of timezones.
-     *
-     * @param string            $name       The name of the select tag
-     * @param null|string       $selected   The selected value
-     * @param null|array|string $attr       The HTML attributes of select tag
-     * @param bool              $htmlencode Use HTML entities for values of select tag
-     *
-     * @return string
-     */
-    public function toSelectBox($name, $selected = null, $attr = null, $htmlencode = true)
-    {
-        // Attributes for select element
-        $attrSet = null;
-
-        if (!empty($attr)) {
-            if (is_array($attr)) {
-                foreach ($attr as $attr_name => $attr_value) {
-                    $attrSet .= ' ' . $attr_name . '="' . $attr_value . '"';
-                }
-            } else {
-                $attrSet = ' ' . $attr;
-            }
-        }
-
-        $listbox = '<select name="' . $name . '"' . $attrSet . '>';
-        $listbox .= (!$this->splitGroup ? $this->genOptWithoutGroup($selected, $htmlencode) : $this->genOptWithGroup($selected, $htmlencode));
-        $listbox .= '</select>';
-
-        return $listbox;
-    }
-
-    /**
-     * Alias of the `toSelectBox()` method.
-     *
-     * @deprecated 6.0.0 This method name no longer matches the semantics
-     *
-     * @param string            $name       The name of the select tag
-     * @param null|string       $selected   The selected value
-     * @param null|array|string $attr       The HTML attributes of select tag
-     * @param bool              $htmlencode Use HTML entities for values of select tag
-     *
-     * @return string
-     */
-    public function create($name, $selected = null, $attr = null, $htmlencode = true)
-    {
-        return $this->toSelectBox($name, $selected, $attr, $htmlencode);
-    }
-
-    /**
      * Create an array of timezones.
      *
      * @param bool $htmlencode Use HTML entities for items
@@ -213,7 +164,7 @@ class Timezonelist
     {
         $list = [];
 
-        // If do not group the return list
+        // If do not split group
         if (!$this->splitGroup) {
             if ($this->includeGeneral()) {
                 foreach ($this->generalTimezones as $timezone) {
@@ -232,7 +183,7 @@ class Timezonelist
             return $list;
         }
 
-        // If group the return list
+        // If split group
         if ($this->includeGeneral()) {
             foreach ($this->generalTimezones as $timezone) {
                 $list['General'][$timezone] = $this->formatTimezone($timezone, null, $htmlencode);
@@ -251,23 +202,74 @@ class Timezonelist
     }
 
     /**
-     * Generate option tag with the optgroup tag.
+     * Alias of the `toSelectBox()` method.
      *
-     * @param string $selected
-     * @param bool   $htmlencode
+     * @deprecated 6.0.0 This method name no longer matches the semantics
+     *
+     * @param string            $name       The name of the select tag
+     * @param null|string       $selected   The selected value
+     * @param null|array|string $attrs      The HTML attributes of select tag
+     * @param bool              $htmlencode Use HTML entities for values of select tag
      *
      * @return string
      */
-    protected function genOptWithGroup($selected, $htmlencode = true)
+    public function create($name, $selected = null, $attrs = null, $htmlencode = true)
     {
-        $output = null;
+        return $this->toSelectBox($name, $selected, $attrs, $htmlencode);
+    }
+
+    /**
+     * Create a select box of timezones.
+     *
+     * @param string            $name       The name of the select tag
+     * @param null|string       $selected   The selected value
+     * @param null|array|string $attrs      The HTML attributes of select tag
+     * @param bool              $htmlencode Use HTML entities for values of select tag
+     *
+     * @return string
+     */
+    public function toSelectBox($name, $selected = null, $attrs = null, $htmlencode = true)
+    {
+        // Attributes for select element
+        $attrString = null;
+
+        if (!empty($attrs)) {
+            if (is_array($attrs)) {
+                foreach ($attrs as $attr_name => $attr_value) {
+                    $attrString .= ' ' . $attr_name . '="' . $attr_value . '"';
+                }
+            } else {
+                $attrString = $attrs;
+            }
+        }
+
+        if ($this->splitGroup) {
+            return $this->makeSelectTagWithGroup($name, $selected, $attrString, $htmlencode);
+        }
+
+        return $this->makeSelectTagWithoutGroup($name, $selected, $attrString, $htmlencode);
+    }
+
+    /**
+     * Generate select element with the optgroup tag.
+     *
+     * @param string      $name       The name of the select tag
+     * @param null|string $selected   The selected value
+     * @param null|string $attrs      The HTML attributes of select tag
+     * @param bool        $htmlencode Use HTML entities for values of select tag
+     *
+     * @return string
+     */
+    protected function makeSelectTagWithGroup($name, $selected = null, $attrs = null, $htmlencode = true)
+    {
+        $attrs  = !empty($attrs) ? ' ' . trim((string) $attrs) : '';
+        $output = '<select name="' . (string) $name . '"' . $attrs . '>';
 
         if ($this->includeGeneral()) {
             $output .= '<optgroup label="General">';
 
             foreach ($this->generalTimezones as $timezone) {
-                $attrs = ($selected == $timezone) ? 'selected="selected"' : '';
-                $output .= $this->genOptionTag($timezone, $attrs, $this->formatTimezone($timezone, null, $htmlencode));
+                $output .= $this->makeOptionTag($this->formatTimezone($timezone, null, $htmlencode), $timezone, ($selected == $timezone));
             }
 
             $output .= '</optgroup>';
@@ -278,45 +280,47 @@ class Timezonelist
             $output .= '<optgroup label="' . $continent . '">';
 
             foreach ($timezones as $timezone) {
-                $attrs = ($selected == $timezone) ? 'selected="selected"' : '';
-                $output .= $this->genOptionTag($timezone, $attrs, $this->formatTimezone($timezone, $continent, $htmlencode));
+                $output .= $this->makeOptionTag($this->formatTimezone($timezone, $continent, $htmlencode), $timezone, ($selected == $timezone));
             }
 
             $output .= '</optgroup>';
         }
 
+        $output .= '</select>';
+
         return $output;
     }
 
     /**
-     * Generate option tag without the optgroup tag.
+     * Generate select element without the optgroup tag.
      *
-     * @param string $selected
-     * @param bool   $htmlencode
+     * @param string      $name       The name of the select tag
+     * @param null|string $selected   The selected value
+     * @param null|string $attrs      The HTML attributes of select tag
+     * @param bool        $htmlencode Use HTML entities for values of select tag
      *
      * @return string
      */
-    protected function genOptWithoutGroup($selected, $htmlencode = true)
+    protected function makeSelectTagWithoutGroup($name, $selected = null, $attrs = null, $htmlencode = true)
     {
-        $output = null;
+        $attrs  = !empty($attrs) ? ' ' . trim((string) $attrs) : '';
+        $output = '<select name="' . (string) $name . '"' . $attrs . '>';
 
         if ($this->includeGeneral()) {
             foreach ($this->generalTimezones as $timezone) {
-                $attrs = ($selected == $timezone) ? 'selected="selected"' : '';
-                $output .= $this->genOptionTag($timezone, $attrs, $this->formatTimezone($timezone, null, $htmlencode));
+                $output .= $this->makeOptionTag($this->formatTimezone($timezone, null, $htmlencode), $timezone, ($selected == $timezone));
             }
         }
 
-        // start adding all timezone of continents
         foreach ($this->loadContinents() as $continent => $mask) {
             $timezones = DateTimeZone::listIdentifiers($mask);
 
             foreach ($timezones as $timezone) {
-                $attrs = ($selected == $timezone) ? 'selected="selected"' : '';
-                $output .= $this->genOptionTag($timezone, $attrs, $this->formatTimezone($timezone, null, $htmlencode));
+                $output .= $this->makeOptionTag($this->formatTimezone($timezone, null, $htmlencode), $timezone, ($selected == $timezone));
             }
         }
-        // end adding all timezone of continents
+
+        $output .= '</select>';
 
         return $output;
     }
@@ -324,22 +328,17 @@ class Timezonelist
     /**
      * Generate the option HTML tag.
      *
-     * @param string $value
-     * @param string $attr
      * @param string $display
+     * @param string $value
+     * @param bool   $selected
      *
      * @return string
      */
-    protected function genOptionTag($value, $attr, $display)
+    protected function makeOptionTag($display, $value, $selected = false)
     {
-        $attr   = (string) (!empty($attr) ? ' ' . $attr : '');
-        $output = '';
+        $attrs = (bool) $selected ? ' selected="selected"' : '';
 
-        $output .= '<option value="' . (string) $value . '"' . $attr . '>';
-        $output .= $display;
-        $output .= '</option>';
-
-        return $output;
+        return '<option value="' . (string) $value . '"' . $attrs . '>' . (string) $display . '</option>';
     }
 
     /**
@@ -419,7 +418,7 @@ class Timezonelist
     protected function normalizeTimezone($timezone, $htmlencode = true)
     {
         $search  = ['St_', '/', '_'];
-        $replace = ['St. ', ' / ' . ' '];
+        $replace = ['St. ', ' / ' , ' '];
 
         return str_replace($search, $replace, $timezone);
     }
