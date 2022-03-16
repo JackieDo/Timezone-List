@@ -188,6 +188,8 @@ class Timezonelist
     /**
      * Alias of the `toSelectBox()` method.
      *
+     * @deprecated 6.0.0 This method name no longer matches the semantics
+     *
      * @param string            $name       The name of the select tag
      * @param null|string       $selected   The selected value
      * @param null|array|string $attr       The HTML attributes of select tag
@@ -232,9 +234,9 @@ class Timezonelist
 
         // If group the return list
         if ($this->includeGeneral()) {
-            $list['General'] = array_map(function ($timezone) use ($htmlencode) {
-                return $this->formatTimezone($timezone, null, $htmlencode);
-            }, $this->generalTimezones);
+            foreach ($this->generalTimezones as $timezone) {
+                $list['General'][$timezone] = $this->formatTimezone($timezone, null, $htmlencode);
+            }
         }
 
         foreach ($this->loadContinents() as $continent => $mask) {
