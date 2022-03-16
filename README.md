@@ -13,15 +13,22 @@
 - [Versions and compatibility](#versions-and-compatibility)
 - [Documentation](#documentation)
   - [Installation](#installation)
-      - [Step 1 - Require Package](#step-1---require-package)
-      - [Step 2 - Register Service Provider](#step-2---register-service-provider)
-      - [Step 3 - Register Facade Alias](#step-3---register-facade-alias)
+    - [Step 1 - Require Package](#step-1---require-package)
+    - [Step 2 - Register Service Provider](#step-2---register-service-provider)
+    - [Step 3 - Register Facade Alias](#step-3---register-facade-alias)
   - [Usage](#usage)
-      - [Working With Facade](#working-with-facade)
-      - [Using As Regular Class](#using-as-regular-class)
+    - [Working With Facade](#working-with-facade)
+    - [Using As Regular Class](#using-as-regular-class)
   - [Available Methods](#available-methods)
-      - [Render a timezone listbox](#render-a-timezone-listbox)
-      - [Render a timezone array](#render-a-timezone-array)
+    - [Render a timezone listbox](#render-a-timezone-listbox)
+    - [Render a timezone array](#render-a-timezone-array)
+    - [Filter the returned list](#filter-the-returned-list)
+      - [Get only some specified groups](#get-only-some-specified-groups)
+      - [Exclude some specified groups](#exclude-some-specified-groups)
+    - [Change the layout of the returned list](#change-the-layout-of-the-returned-list)
+      - [Decide whether to split group or not](#decide-whether-to-split-group-or-not)
+      - [Decide whether to show the timezone offset or not](#decide-whether-to-show-the-timezone-offset-or-not)
+    - [Reset all config and return new list](#reset-all-config-and-return-new-list)
 - [Contributors](#contributors)
 - [License](#license)
 
@@ -46,7 +53,7 @@ Currently, there are some branches of Timezone-List is compatible with the follo
 
 You can install this package through [Composer](https://getcomposer.org) with the following steps:
 
-#### Step 1 - Require Package
+### Step 1 - Require Package
 
 At the root of your application directory, run the following command (in any terminal client):
 
@@ -56,7 +63,7 @@ $ composer require jackiedo/timezonelist
 
 > **Note:** Since Laravel 5.5, [service providers and aliases are automatically registered](https://laravel.com/docs/5.5/packages#package-discovery). But if you are using Laravel 5.4 and earlier, you must register the Service Provider and the Facade manually. Do the following steps:
 
-#### Step 2 - Register Service Provider
+### Step 2 - Register Service Provider
 
 Open `config/app.php`, and add a new line to the providers section:
 
@@ -65,7 +72,7 @@ Open `config/app.php`, and add a new line to the providers section:
 Jackiedo\Timezonelist\TimezonelistServiceProvider::class,
 ```
 
-#### Step 3 - Register Facade Alias
+### Step 3 - Register Facade Alias
 Add the following line to the aliases section in file `config/app.php`:
 
 ```php
@@ -74,7 +81,7 @@ Add the following line to the aliases section in file `config/app.php`:
 
 ## Usage
 
-#### Working With Facade
+### Working With Facade
 
 Laravel Timezone List has a facade with the fully qualified namespace is `Jackiedo\Timezonelist\Facades\Timezonelist`. You can perform all operations through this facade.
 
@@ -107,7 +114,7 @@ class YourClass
 </div>
 ```
 
-#### Using As Regular Class
+### Using As Regular Class
 
 You can completely use the package through the `Jackiedo\Timezonelist\Timezonelist` class like using a regular object class.
 
@@ -132,13 +139,13 @@ class YourClass
 
 ## Available Methods
 
-#### Render a timezone listbox
+### Render a timezone listbox
 
 **Syntax:**
 
 ```php
 /**
- * Create a GMT timezone select element for form.
+ * Create a select box of timezones.
  *
  * @param string            $name       The name of the select tag
  * @param null|string       $selected   The selected value
@@ -147,13 +154,21 @@ class YourClass
  *
  * @return string
  */
+public function toSelectBox($name, $selected = null, $attr = null, $htmlencode = true);
+
+/**
+ * Alias of the `toSelectBox()` method.
+ *
+ * @deprecated 6.0.0 This method name no longer matches the semantics
+ */
 public function create($name, $selected = null, $attr = null, $htmlencode = true);
 ```
+> Note: the `create()` method will bew removed in the version 6.x
 
 **Example:**
 
 ```php
-echo Timezonelist::create('timezone');
+echo Timezonelist::toSelectBox('timezone');
 ```
 
 This will output the following HTML code:
@@ -195,7 +210,7 @@ This will output the following HTML code:
 </select>
 ```
 
-> The `Timezonelist::create()` method has four parameters:
+> The `Timezonelist::toSelectBox()` method has four parameters:
 
 - The first parameter is required, it is the name attribute of the rendered select tag
 - The second parameter use to set selected value of list box.
@@ -206,24 +221,24 @@ This will output the following HTML code:
 
 ```php
 // Render a select tag with the name `timezone` and the `Africa/Asmara` option preselected
-Timezonelist::create('timezone', 'Africa/Asmara');
+Timezonelist::toSelectBox('timezone', 'Africa/Asmara');
 
 // Render tag with some HTML attributes
-Timezonelist::create('timezone', null, [
+Timezonelist::toSelectBox('timezone', null, [
     'id'    => 'timezone',
     'class' => 'styled',
     ...
 ]);
 
 // Or with other method
-Timezonelist::create('timezone', null, 'id="timezone" class="styled"');
+Timezonelist::toSelectBox('timezone', null, 'id="timezone" class="styled"');
 ```
 
 > Example of the difference of the `fourth parameter`
 
 ![Example-render-select-tag](https://user-images.githubusercontent.com/9862115/158339796-c58a6447-8564-4976-a4e7-2b7f9807276d.jpg)
 
-#### Render a timezone array
+### Render a timezone array
 
 **Syntax:**
 
@@ -241,7 +256,165 @@ public function toArray($htmlencode = true);
 **Example:**
 
 ```php
-$timezoneList = Timezonelist::toArray();
+$timezoneList = Timezonelist::toArray(false);
+
+// The returned list will be
+// [
+//     "General" => [
+//         "GMT" => "(GMT/UTC + 00:00) GMT",
+//         "UTC" => "(GMT/UTC + 00:00) UTC",
+//     ],
+//     "Africa" => [
+//         "Africa/Abidjan "    => "(GMT/UTC + 00:00) Abidjan",
+//         "Africa/Accra"       => "(GMT/UTC + 00:00) Accra",
+//         "Africa/Addis_Ababa" => "(GMT/UTC + 03:00) AddisAbaba",
+//         "Africa/Algiers"     => "(GMT/UTC + 01:00) Algiers",
+//         "Africa/Asmara"      => "(GMT/UTC + 03:00) Asmara",
+//         ...
+//     ],
+//     "America" => [
+//         "America/Adak"      => "(GMT/UTC - 09:00) Adak",
+//         "America/Anchorage" => "(GMT/UTC - 08:00) Anchorage",
+//         "America/Anguilla"  => "(GMT/UTC - 04:00) Anguilla",
+//         "America/Antigua"   => "(GMT/UTC - 04:00) Antigua",
+//         "America/Araguaina" => "(GMT/UTC - 03:00) Araguaina",
+//         ...
+//     ],
+//     ...
+// ]
+```
+
+### Filter the returned list
+
+By default, the `toSelectBox`, `toArray`... methods will return a list of timezones consisting of 11 groups (one common group and 10 groups corresponding to the continents):
+
+- General
+- Africa
+- America
+- Antarctica
+- Arctic
+- Asia
+- Atlantic
+- Australia
+- Europe
+- Indian
+- Pacific
+
+In some cases, we don't want to get in that list some specified groups, we can do that by some of the following methods:
+
+#### Get only some specified groups
+
+**Syntax:**
+
+```php
+/**
+ * Set the filter of the groups want to get.
+ *
+ * @param array $groups
+ *
+ * @return $this
+ */
+public function onlyGroups($groups = []);
+```
+
+**Example:**
+
+```php
+...
+$return = Timezonelist::onlyGroups(['Asia', 'America'])->toSelectBox('timezone');
+```
+
+#### Exclude some specified groups
+
+**Syntax:**
+
+```php
+/**
+ * Set the filter of the groups do not want to get.
+ *
+ * @param array $groups
+ *
+ * @return $this
+ */
+public function excludeGroups($groups = []);
+```
+
+**Example:**
+
+```php
+...
+$return = Timezonelist::excludeGroups(['General'])->toArray();
+```
+
+### Change the layout of the returned list
+
+In some cases, we need to change the form of the list that we will receive, we can do it through some of the following methods:
+
+#### Decide whether to split group or not
+
+**Syntax:**
+
+```php
+/**
+ * Decide whether to split group or not.
+ *
+ * @param bool $status
+ *
+ * @return $this
+ */
+public function splitGroup($status = true);
+```
+
+**Example:**
+
+```php
+$return = Timezonelist::splitGroup(false)->excludeGroups(['General'])->toSelectBox('timezone');
+```
+
+#### Decide whether to show the timezone offset or not
+
+**Syntax:**
+
+```php
+/**
+ * Decide whether to show the offset or not.
+ *
+ * @param bool $status
+ *
+ * @return $this
+ */
+public function showOffset($status = true);
+```
+
+**Example:**
+
+```php
+$return = Timezonelist::showOffset(false)->excludeGroups(['General'])->toSelectBox('timezone');
+```
+
+### Reset all config and return new list
+
+Always keep in mind that, if we use package methods via Facade, we are using it as a `static` interface to a class. This means that the filter and layout settings will always be saved for the next call. If we don't want to reuse these settings, we have to execute the following method on the next call:
+
+**Syntax:**
+
+```php
+/**
+ * Return new static to reset all config.
+ *
+ * @return $this
+ */
+public function new();
+```
+
+**Example:**
+
+```php
+// Genrate one select box, exclude two groups of timezones, Asia and Africa
+$selectBox = Timezonelist::excludeGroups(['Asia', 'Africa'])->toSelectBox('timezone');
+
+$list1 = Timezonelist::toArray();       // Two groups, Asia and Africa, will not be loaded into the result
+$list2 = Timezonelist::new()->toArray() // All groups will be loaded
 ```
 
 # Contributors
