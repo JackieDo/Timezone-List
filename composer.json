@@ -23,6 +23,9 @@
             "dev-master": "5.x-dev"
         },
         "laravel": {
+            "aliases": {
+                "Timezonelist": "Jackiedo\\Timezonelist\\Facades\\Timezonelist"
+            },
             "providers": [
                 "Jackiedo\\Timezonelist\\TimezonelistServiceProvider"
             ]

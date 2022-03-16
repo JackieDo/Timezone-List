@@ -15,13 +15,6 @@ use Illuminate\Support\ServiceProvider;
 class TimezonelistServiceProvider extends ServiceProvider
 {
     /**
-     * Indicates if loading of the provider is deferred.
-     *
-     * @var bool
-     */
-    protected $defer = false;
-
-    /**
      * Bootstrap the application events.
      *
      * @return void
@@ -56,5 +49,15 @@ class TimezonelistServiceProvider extends ServiceProvider
     public function provides()
     {
         return ['timezonelist'];
+    }
+
+    /**
+     * Determine if the provider is deferred.
+     *
+     * @return bool
+     */
+    public function isDeferred()
+    {
+        return false;
     }
 }
