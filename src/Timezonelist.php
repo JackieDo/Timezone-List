@@ -148,7 +148,7 @@ class Timezonelist
      *
      * @return $this
      */
-    public function new()
+    public function reset()
     {
         return new static;
     }
