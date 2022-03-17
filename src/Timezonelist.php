@@ -17,9 +17,9 @@ class Timezonelist
     /**
      * HTML entities.
      */
-    public const MINUS      = '&#8722;';
-    public const PLUS       = '&#43;';
-    public const WHITESPACE = '&#160;';
+    const MINUS      = '&#8722;';
+    const PLUS       = '&#43;';
+    const WHITESPACE = '&#160;';
 
     /**
      * General timezones.
