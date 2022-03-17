@@ -404,7 +404,7 @@ Always keep in mind that, if we use package methods via Facade, we are using it 
  *
  * @return $this
  */
-public function new();
+public function reset();
 ```
 
 **Example:**
@@ -413,8 +413,8 @@ public function new();
 // Genrate one select box, exclude two groups of timezones, Asia and Africa
 $selectBox = Timezonelist::excludeGroups(['Asia', 'Africa'])->toSelectBox('timezone');
 
-$list1 = Timezonelist::toArray();       // Two groups, Asia and Africa, will not be loaded into the result
-$list2 = Timezonelist::new()->toArray() // All groups will be loaded
+$list1 = Timezonelist::toArray();         // Two groups, Asia and Africa, will not be loaded into the result
+$list2 = Timezonelist::reset()->toArray() // All groups will be loaded
 ```
 
 # Contributors
