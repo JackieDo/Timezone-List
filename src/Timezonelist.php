@@ -368,6 +368,20 @@ class Timezonelist
     }
 
     /**
+     * Sets the timezones available to show as general timezones.
+     *
+     * @param array $timezones
+     *
+     * @return $this
+     */
+    protected function setGeneralTimezones(array $timezones)
+    {
+        $this->generalTimezones = $timezones;
+
+        return $this;
+    }
+
+    /**
      * Format to display timezones.
      *
      * @param string      $timezone
