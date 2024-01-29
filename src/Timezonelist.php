@@ -202,6 +202,36 @@ class Timezonelist
     }
 
     /**
+     * Create a flat array of timezones.
+     *
+     * @param bool $htmlencode Use HTML entities for items
+     *
+     * @return mixed
+     */
+    public function toFlatArray($htmlencode = true)
+    {
+        $list = [];
+
+        // Include general timezones if required
+        if ($this->includeGeneral()) {
+            foreach ($this->generalTimezones as $timezone) {
+                $list[$timezone] = $this->formatTimezone($timezone, null, $htmlencode);
+            }
+        }
+
+        // Include timezones for each continent
+        foreach ($this->loadContinents() as $continent => $mask) {
+            $timezones = DateTimeZone::listIdentifiers($mask);
+
+            foreach ($timezones as $timezone) {
+                $list[$timezone] = $this->formatTimezone($timezone, null, $htmlencode);
+            }
+        }
+
+        return $list;
+    }
+
+    /**
      * Alias of the `toSelectBox()` method.
      *
      * @deprecated 6.0.0 This method name no longer matches the semantics
